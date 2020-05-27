@@ -1,0 +1,58 @@
+{
+    "variables": {
+        "serial": ""
+    },
+    "builders": [
+        {
+            "accelerator": "kvm",
+            "boot_command": [
+                "<tab> console=ttyS0,115200n8 inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks-cent.cfg rd.live.check=0<enter><wait>"
+            ],
+            "boot_wait": "5s",
+            "iso_checksum": "http://centos.mirrors.tds.net/pub/linux/centos/8.1.1911/isos/x86_64/CHECKSUM",
+            "communicator": "none",
+            "disk_interface": "ide",
+            "disk_size": "8G",
+            "http_directory": "http",
+            "format": "qcow2",
+            "headless": true,
+	    "cpus": 2,
+            "memory": 2048,
+            "iso_checksum_type": "file",
+            "iso_url": "http://centos.mirrors.tds.net/pub/linux/centos/8.1.1911/isos/x86_64/CentOS-8.1.1911-x86_64-dvd1.iso",
+            "net_device": "virtio-net",
+            "output_directory": "./vm",
+            "shutdown_timeout": "30m",
+            "type": "qemu",
+            "vm_name": "cent8.qcow2",
+            "qemuargs": [
+                [
+                    "-m",
+                    "1024"
+                ],
+                [
+                    "-cpu",
+                    "host"
+                ],
+                [
+                    "-chardev",
+                    "tty,id=pts,path={{user `serial`}}"
+                ],
+                [
+                    "-device",
+                    "isa-serial,chardev=pts"
+                ],
+                [
+                    "-device",
+                    "virtio-net,netdev=user.0"
+                ]
+            ]
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "manifest",
+            "output": "manifest.json"
+        }
+    ]
+}
