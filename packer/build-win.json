@@ -1,0 +1,60 @@
+{
+    "variables": {
+        "serial": ""
+    },
+    "builders": [
+        {
+            "accelerator": "kvm",
+            "boot_wait": "5s",
+            "communicator": "winrm",
+            "winrm_username": "packer",
+            "winrm_password": "packer",
+            "winrm_use_ssl": true,
+            "winrm_insecure": true,
+            "winrm_use_ntlm": true,
+            "winrm_timeout": "2h",
+            "disk_interface": "ide",
+            "disk_size": "20G",
+            "floppy_dirs": "floppy",
+            "format": "qcow2",
+            "headless": true,
+            "cpus": 2,
+            "memory": 4096,
+            "iso_checksum_type": "none",
+            "iso_url": "./Win10_2004_English_x64.iso",
+            "net_device": "virtio-net",
+            "output_directory": "./vm",
+            "shutdown_timeout": "1h",
+            "type": "qemu",
+            "vm_name": "cent8.qcow2",
+            "qemuargs": [
+                [
+                    "-m",
+                    "4096"
+                ],
+                [
+                    "-cpu",
+                    "host"
+                ],
+                [
+                    "-chardev",
+                    "tty,id=pts,path={{user `serial`}}"
+                ],
+                [
+                    "-device",
+                    "isa-serial,chardev=pts"
+                ],
+                [
+                    "-device",
+                    "virtio-net,netdev=user.0"
+                ]
+            ]
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "manifest",
+            "output": "manifest.json"
+        }
+    ]
+}
