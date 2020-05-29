@@ -21,38 +21,16 @@
             "iso_checksum_type": "file",
             "iso_url": "http://centos.mirrors.tds.net/pub/linux/centos/8.1.1911/isos/x86_64/CentOS-8.1.1911-x86_64-dvd1.iso",
             "net_device": "virtio-net",
-            "output_directory": "./vm",
+            "output_directory": "./vm-linux",
             "shutdown_timeout": "30m",
             "type": "qemu",
-            "vm_name": "cent8.qcow2",
-            "qemuargs": [
-                [
-                    "-m",
-                    "1024"
-                ],
-                [
-                    "-cpu",
-                    "host"
-                ],
-                [
-                    "-chardev",
-                    "tty,id=pts,path={{user `serial`}}"
-                ],
-                [
-                    "-device",
-                    "isa-serial,chardev=pts"
-                ],
-                [
-                    "-device",
-                    "virtio-net,netdev=user.0"
-                ]
-            ]
+            "vm_name": "cent8.qcow2"            
         }
     ],
     "post-processors": [
         {
             "type": "manifest",
-            "output": "manifest.json"
+            "output": "manifest-linux.json"
         }
     ]
 }

@@ -16,3 +16,27 @@ chmod +x /usr/bin/packer && \
 pip3 install "ansible>=${ANSIBLE_VERSION}" && \
 pip3 install "pywinrm" && \
 apt-get install qemu -y
+# Install Wok
+RUN pip3 install cheetah3
+RUN wget https://github.com/kimchi-project/wok/releases/download/3.0.0/wok-3.0.0-0.ubuntu.noarch.deb
+RUN apt-get install python3-ldap logrotate python3-psutil python3-lxml python3-websockify python3-jsonschema nginx python3-cherrypy3 python3-pam python-m2crypto gettext python3-openssl -y
+#RUN apt install -y wok-3.0.0-0.ubuntu.noarch.deb
+RUN dpkg --ignore-depends=python3-cheetah -i wok-3.0.0-0.ubuntu.noarch.deb
+
+# Some Kimchi dependencies need to be installed via pip
+RUN apt install -y python3-pip pkg-config libnl-route-3-dev && \
+pip3 install -r https://raw.githubusercontent.com/kimchi-project/kimchi/master/requirements-UBUNTU.txt
+
+RUN git clone https://github.com/kimchi-project/kimchi.git &&\
+  cd kimchi &&\
+  ./autogen.sh --system &&\
+  make &&\
+  make install &&\
+  cd / &&\
+  rm -rf /var/lib/kimchi/isos /kimchi
+
+RUN (sed -i "s/#create_iso_pool = true/create_iso_pool = false/g" /etc/kimchi/kimchi.conf &&\
+  sed -i "s/#display_proxy_port = 64667/display_proxy_port = 64668/g" /etc/kimchi/kimchi.conf)
+
+ENTRYPOINT ["kimchid"]
+CMD ["--host=0.0.0.0"]

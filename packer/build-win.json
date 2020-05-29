@@ -1,0 +1,38 @@
+{
+    "variables": {
+        "serial": ""
+    },
+    "builders": [
+        {
+            "accelerator": "kvm",
+            "boot_wait": "10m",
+            "communicator": "winrm",
+            "winrm_username": "packer",
+            "winrm_password": "packer",
+            "winrm_use_ssl": true,
+            "winrm_insecure": true,
+            "winrm_use_ntlm": true,
+            "winrm_timeout": "2h",
+            "disk_interface": "ide",
+            "disk_size": "20G",
+            "floppy_files": "{{template_dir}}/floppy/",
+            "format": "qcow2",
+            "headless": true,
+            "cpus": 2,
+            "memory": 4096,
+            "iso_checksum_type": "none",
+            "iso_url": "{{template_dir}}/Win10_2004_English_x64.iso",
+            "net_device": "e1000",
+            "output_directory": "./vm-win",
+            "shutdown_timeout": "1h",
+            "type": "qemu",
+            "vm_name": "windows.qcow2"
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "manifest",
+            "output": "manifest-win.json"
+        }
+    ]
+}

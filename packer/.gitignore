@@ -1,4 +1,7 @@
 packer_cache
-vm
+vm-win
+vm-linux
 *.iso
-manifest.json
+manifest*.json
+vmwaretools
+*.vmdk
