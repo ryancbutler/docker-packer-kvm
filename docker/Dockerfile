@@ -6,7 +6,7 @@ ENV ANSIBLE_VERSION 2.9
 RUN pwsh -c 'Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted' && \
 apt-get update && \
 apt-get install wget unzip python3 software-properties-common python3-pip jq ssh -y && \
-pip3 install awscli && \
+#pip3 install awscli && \
 pwsh -c 'install-module az -force -confirm:$false' && \
 pwsh -c 'install-module VMware.PowerCLI -force -confirm:$false' && \
 pwsh -c 'Set-PowerCLIConfiguration -InvalidCertificateAction:Ignore -confirm:$false' && \
